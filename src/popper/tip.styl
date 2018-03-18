@@ -1,0 +1,51 @@
+.fade-enter-active
+.fade-leave-active
+    transition opacity .5s
+.fade-enter
+.fade-leave-to
+    opacity 0
+.popover
+    display inline-block
+    position relative
+    .content
+        line-height 1
+    .popover
+        position absolute
+        // transform translate(-50%, -50%)
+        z-index 10000
+        font-size 0
+        transform translate3d(0, 0, 0)
+        &.hidden
+            visibility hidden
+
+.tip-dialog
+    padding 4px 6px 4px 6px
+    display inline-block
+    font-family PingFangSC-Regular
+    font-size 12px
+    line-height 15px
+    color #FFFFFF
+    background #202D3D
+    border-radius 2px
+    vertical-align middle
+    position relative
+    &.right
+        &:after
+            left 0
+            top 0
+            bottom 0
+            margin auto
+            transform translate(-50%, 0) rotate(135deg)
+    &.top
+        &:after
+            bottom -7px
+    &:after
+        content ''
+        transform translate(-50%, -50%) rotate(135deg)
+        left 50%
+        width 10px
+        height 10px
+        border-radius 2px
+        background #202D3D
+        position absolute
+        z-index -1
