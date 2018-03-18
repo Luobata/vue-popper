@@ -1,4 +1,6 @@
 import pop from './popper.vue';
+import Canvas from 'canvas-text-layout';
+
 export default {
     name: 'popper',
     components: {
@@ -50,6 +52,16 @@ export default {
     },
     mounted() {
         this.reference = this.$slots.reference[0].elm;
+        const content = new Canvas({
+            text: this.content,
+            width: this.width,
+            fontSize: '14px',
+            lineHeight: '20px',
+            color: 'white',
+            fontFamily: 'mocrosoft yahei',
+            padding: '0px',
+        });
+        this.$refs['dialog'].append(content.canvas);
 
         if (this.trigger === 'hover') {
             this.reference.addEventListener('mouseenter', this.hoverEnter);

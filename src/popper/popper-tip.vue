@@ -4,8 +4,9 @@
         slot(name="reference")
     //transition(name="el-fade-in-linear")
     transition(name="fade")
-        pop(v-if="show" :placement="placement" ref="popper" :reference="$refs.icon" :width="width" :offset="offset")
-            .tip-dialog(:class="placement" ref="dialog") {{ content }}
+        pop(v-show="show" :placement="placement" ref="popper" :reference="$refs.icon" :width="width" :offset="offset")
+            // .tip-dialog(:class="placement" ref="dialog") {{ content }}
+            .tip-dialog(:class="placement" ref="dialog")
 </template>
 <style src="./tip.styl" lang="stylus" scoped></style>
 <script src="./tip.js"></script>
