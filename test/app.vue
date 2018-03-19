@@ -10,7 +10,7 @@
 </template>
 <style scoped lang="stylus">
     .test
-        margin 100px
+        margin 300px
     .test-rectangular
         width 100px
         height 100px

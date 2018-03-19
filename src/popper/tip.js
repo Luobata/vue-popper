@@ -45,6 +45,17 @@ export default {
         show(val) {
             this.$nextTick(() => {
                 if (val) {
+                    const content = new Canvas({
+                        text: this.content,
+                        width: this.width,
+                        fontSize: '15px',
+                        lineHeight: '20px',
+                        color: 'white',
+                        fontFamily: 'mocrosoft yahei',
+                        padding: '0px',
+                    });
+                    const dialog = this.$refs['dialog'];
+                    dialog.append(content.canvas);
                     this.$refs['popper'].update();
                 }
             });
@@ -52,16 +63,6 @@ export default {
     },
     mounted() {
         this.reference = this.$slots.reference[0].elm;
-        const content = new Canvas({
-            text: this.content,
-            width: this.width,
-            fontSize: '14px',
-            lineHeight: '20px',
-            color: 'white',
-            fontFamily: 'mocrosoft yahei',
-            padding: '0px',
-        });
-        this.$refs['dialog'].append(content.canvas);
 
         if (this.trigger === 'hover') {
             this.reference.addEventListener('mouseenter', this.hoverEnter);
