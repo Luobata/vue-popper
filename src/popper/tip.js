@@ -26,6 +26,10 @@ export default {
         width: {
             type: String,
         },
+        type: {
+            typs: String,
+            default: 'canvas',
+        },
     },
     data() {
         return {
@@ -45,17 +49,19 @@ export default {
         show(val) {
             this.$nextTick(() => {
                 if (val) {
-                    const content = new Canvas({
-                        text: this.content,
-                        width: this.width,
-                        fontSize: '15px',
-                        lineHeight: '20px',
-                        color: 'white',
-                        fontFamily: 'mocrosoft yahei',
-                        padding: '0px',
-                    });
-                    const dialog = this.$refs['dialog'];
-                    dialog.append(content.canvas);
+                    if (this.type === 'canvas') {
+                        const content = new Canvas({
+                            text: this.content,
+                            width: this.width,
+                            fontSize: '15px',
+                            lineHeight: '20px',
+                            color: 'white',
+                            fontFamily: 'mocrosoft yahei',
+                            padding: '0px',
+                        });
+                        const dialog = this.$refs['dialog'];
+                        dialog.append(content.canvas);
+                    }
                     this.$refs['popper'].update();
                 }
             });

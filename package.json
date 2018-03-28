@@ -21,7 +21,7 @@
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-2": "^6.22.0",
-    "canvas-text-layout": "0.0.2",
+    "canvas-text-layout": "0.0.3",
     "css-loader": "0.25.0",
     "eslint": "^4.6.0",
     "eslint-config-airbnb": "^16.1.0",

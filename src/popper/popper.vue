@@ -1,5 +1,5 @@
 <template lang="pug">
-    .poper(:style="")
+    .poper(:style="{'width':width}")
         slot
 </template>
 <style lang="stylus" scoped>
