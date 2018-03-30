@@ -48,19 +48,22 @@ export default {
     watch: {
         show(val) {
             this.$nextTick(() => {
+                const useCanvas = ['canvas', 'dom'];
                 if (val) {
-                    if (this.type === 'canvas') {
+                    if (useCanvas.indexOf(this.type) !== -1) {
                         const content = new Canvas({
                             text: this.content,
                             width: this.width,
+                            type: this.type,
                             fontSize: '15px',
                             lineHeight: '20px',
                             color: 'white',
                             fontFamily: 'mocrosoft yahei',
                             padding: '0px',
+                            type: this.type,
                         });
                         const dialog = this.$refs['dialog'];
-                        dialog.append(content.canvas);
+                        dialog.appendChild(content[this.type]);
                     }
                     this.$refs['popper'].update();
                 }
