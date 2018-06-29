@@ -61,6 +61,8 @@ export default {
             } else if (typeof this.show === 'number') {
                 // number 需要判断长度
                 return this.judgeLength();
+            } else if (typeof this.show === 'string') {
+                return this.computedString();
             }
         },
         judgeLength() {
@@ -68,6 +70,41 @@ export default {
             console.log(rect);
 
             return rect.width > this.show;
+        },
+        computedString() {
+            // 运算符+ - * /
+            // 表达式 (number)% (number)px
+            const refRec = this.reference.getBoundingClientRect();
+            const lenRec = this.lengthElm.getBoundingClientRect();
+            const width = refRec.width;
+            const str = this.show.replace(/px/g, '').replace(/(\d+)%/g, val => {
+                return (parseFloat(val) * width) / 100;
+            });
+            const maxWidth = new Function(`return ${str}`)();
+            console.log(maxWidth);
+
+            return lenRec.width > maxWidth;
+        },
+        findSlot(ref, key) {
+            const next = [];
+            if (ref.children && ref.children.length) {
+                for (let i = 0; i < ref.children.length; i++) {
+                    const item = ref.children[i];
+                    if (item.data && item.data.slot === key) {
+                        return item;
+                    } else if (item.children && item.children.length) {
+                        next.push(item);
+                    }
+                }
+                for (let i = 0; i < next.length; i++) {
+                    const tmp = this.findSlot(next[i], key);
+                    if (tmp) {
+                        return tmp;
+                    }
+                }
+            }
+
+            return null;
         },
     },
     watch: {
@@ -112,20 +149,22 @@ export default {
             this.reference.addEventListener('mouseleave', this.hoverLeave);
         }
 
-        if (typeof this.show === 'number') {
-            const length = this.$slots.length;
+        if (typeof this.show === 'number' || typeof this.show === 'string') {
+            // const length = this.reference.querySelector('.length');
+            const length = this.findSlot(this.$slots.reference[0], 'length');
             if (length) {
-                this.lengthElm = this.$slots.length[0].elm;
+                console.log(length);
+                this.lengthElm = length.elm;
             } else {
                 this.lengthElm = this.reference;
             }
 
-            this.lengthEve = throttle(50, () => {
-                // get length to judge if show
-                // this.judgeLength();
-            });
+            // this.lengthEve = throttle(50, () => {
+            //     // get length to judge if show
+            //     // this.judgeLength();
+            // });
 
-            addResizeListener(this.lengthElm, this.lengthEve);
+            // addResizeListener(this.lengthElm, this.lengthEve);
         }
     },
     destroy() {
@@ -133,8 +172,8 @@ export default {
             this.reference.removeEventListener('mouseenter', this.hoverEnter);
             this.reference.removeEventListener('mouseleave', this.hoverLeave);
         }
-        if (this.lengthEve) {
-            removeEventListener(this.lengthElm, this.lengthEve);
-        }
+        // if (this.lengthEve) {
+        //     removeEventListener(this.lengthElm, this.lengthEve);
+        // }
     },
 };
