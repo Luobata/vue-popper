@@ -30,26 +30,39 @@ export default {
             typs: String,
             default: 'canvas',
         },
+        show: {
+            type: Boolean | Function,
+            default: true,
+        },
     },
     data() {
         return {
-            show: false,
+            display: false,
+            showover: false,
             reference: '',
         };
     },
     methods: {
         hoverEnter() {
-            this.show = true;
+            this.display = true;
         },
         hoverLeave() {
-            this.show = false;
+            this.display = false;
+        },
+        canShow() {
+            if (typeof this.show === 'boolean') {
+                return this.show;
+            } else if (typeof this.show === 'function') {
+                return this.show();
+            }
         },
     },
     watch: {
-        show(val) {
+        display(val) {
             this.$nextTick(() => {
                 const useCanvas = ['canvas', 'dom'];
-                if (val) {
+                if (val && this.canShow()) {
+                    this.showover = true;
                     if (useCanvas.indexOf(this.type) !== -1) {
                         const content = new Canvas({
                             text: this.content,
@@ -62,10 +75,18 @@ export default {
                             padding: '0px',
                             type: this.type,
                         });
-                        const dialog = this.$refs['dialog'];
-                        dialog.appendChild(content[this.type]);
+                        this.$nextTick(() => {
+                            const dialog = this.$refs['dialog'];
+                            dialog.appendChild(content[this.type]);
+                            this.$refs['popper'].update();
+                        });
+                    } else {
+                        this.$nextTick(() => {
+                            this.$refs['popper'].update();
+                        });
                     }
-                    this.$refs['popper'].update();
+                } else {
+                    this.showover = false;
                 }
             });
         },
