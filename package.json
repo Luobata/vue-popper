@@ -84,6 +84,6 @@
     },
     "homepage": "https://github.com/Luobata/vue-popper#readme",
     "dependencies": {
-        "throttle-debounce": "^2.0.0"
+        "throttle-debounce": "^1.0.1"
     }
 }

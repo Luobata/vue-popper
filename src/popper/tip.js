@@ -43,6 +43,7 @@ export default {
             showover: false,
             reference: '',
             lengthElm: '',
+            lengthEve: '',
         };
     },
     methods: {
@@ -59,11 +60,14 @@ export default {
                 return this.show();
             } else if (typeof this.show === 'number') {
                 // number 需要判断长度
-                console.log(this.$slots);
-                const content = this.$slots.content;
-                if (content) {
-                }
+                return this.judgeLength();
             }
+        },
+        judgeLength() {
+            const rect = this.lengthElm.getBoundingClientRect();
+            console.log(rect);
+
+            return rect.width > this.show;
         },
     },
     watch: {
@@ -115,12 +119,22 @@ export default {
             } else {
                 this.lengthElm = this.reference;
             }
+
+            this.lengthEve = throttle(50, () => {
+                // get length to judge if show
+                // this.judgeLength();
+            });
+
+            addResizeListener(this.lengthElm, this.lengthEve);
         }
     },
     destroy() {
         if (this.trigger === 'hover') {
             this.reference.removeEventListener('mouseenter', this.hoverEnter);
             this.reference.removeEventListener('mouseleave', this.hoverLeave);
+        }
+        if (this.lengthEve) {
+            removeEventListener(this.lengthElm, this.lengthEve);
         }
     },
 };
