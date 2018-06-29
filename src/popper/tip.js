@@ -1,5 +1,7 @@
 import pop from './popper.vue';
 import Canvas from 'canvas-text-layout';
+import { addResizeListener, removeResizeListener } from './resize-event';
+import throttle from 'throttle-debounce/throttle';
 
 export default {
     name: 'popper',
