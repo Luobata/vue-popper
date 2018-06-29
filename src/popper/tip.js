@@ -31,7 +31,7 @@ export default {
             default: 'canvas',
         },
         show: {
-            type: Boolean | Function,
+            type: Boolean | Function | Number,
             default: true,
         },
     },
@@ -40,6 +40,7 @@ export default {
             display: false,
             showover: false,
             reference: '',
+            lengthElm: '',
         };
     },
     methods: {
@@ -54,6 +55,12 @@ export default {
                 return this.show;
             } else if (typeof this.show === 'function') {
                 return this.show();
+            } else if (typeof this.show === 'number') {
+                // number 需要判断长度
+                console.log(this.$slots);
+                const content = this.$slots.content;
+                if (content) {
+                }
             }
         },
     },
@@ -97,6 +104,15 @@ export default {
         if (this.trigger === 'hover') {
             this.reference.addEventListener('mouseenter', this.hoverEnter);
             this.reference.addEventListener('mouseleave', this.hoverLeave);
+        }
+
+        if (typeof this.show === 'number') {
+            const length = this.$slots.length;
+            if (length) {
+                this.lengthElm = this.$slots.length[0].elm;
+            } else {
+                this.lengthElm = this.reference;
+            }
         }
     },
     destroy() {

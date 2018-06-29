@@ -23,6 +23,7 @@
             offset="0, 5px"
             width="110px"
             type="dom"
+            :show="10"
             content="接通率=（未回应+已回应的线索量）÷（未接通+未回应+已回应的>线索量)")
             div.test-rectangular(slot="reference") 通过dom计算
 </template>
